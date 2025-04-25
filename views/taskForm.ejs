@@ -14,10 +14,11 @@
                 <label>
                     Title
                     <input type="text" name="title" value="<%= prevInput?.title || '' %>">
+                    <p style="color: rgb(249, 7, 7) ;"><%= errors?.title %></p>
                 </label>
                 <label>
                     Description
-                    <input type="text" name="description" value="<%= prevInput?.description || '' %>">
+                    <textarea name="description"><%= prevInput?.description || '' %></textarea>
                     <% if(errors?.description) { %>
                     <p style="color: rgb(249, 7, 7);"><%= errors.description %></p>
                     <% } %>

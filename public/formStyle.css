@@ -3,6 +3,7 @@ body {
     width: 100%;
     padding: 0;
     color: white;
+    box-sizing: border-box;
 }
 
 main {
@@ -23,6 +24,12 @@ main {
 
 .form-container input { 
     margin: 10px 0 10px 0;
+}
+
+textarea {
+    width: 100%;
+    resize: vertical;
+    max-width: 100%;
 }
 
 label {

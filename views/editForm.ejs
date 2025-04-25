@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="/formStyle.css">
+</head>
+<body>
+    <main>
+    <h1>Edit Your Task</h1>
+    <div class="form-container">
+        <form action="/editTask?_method=PATCH" method="post">
+            <label>
+                Title
+                <input type="text" name="title" value=" <%= userTask?.title || prevInput?.title || '' %> ">
+            </label>
+            <p style="color: red;"> <%= errors?.title %> </p>
+            <label>
+                Description
+                <textarea name="description"><%= userTask?.description || prevInput?.description || '' %></textarea>
+            </label>
+            <p style="color: red;"><%= errors?.description %></p>
+            <label>
+                Due 
+                <input type="date" value=" <%= userTask?.dueDate || prevInput?.dueDate || '' %> ">
+            </label>
+            <p style="color: red;"><%= errors?.dueDate %></p>
+            <button type="submit">Update</button>
+        </form>
+    </div>
+    </main>
+</body>
+</html>

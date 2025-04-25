@@ -14,6 +14,7 @@ app.use(express.static(path.join(__dirname, "public"))); //app.use expects a mid
 //set required middlewares
 app.use(express.urlencoded({extended: true})); //parses form "PUT" method data
 app.use(express.json()); //parses JSON data
+app.use(methodOverride('_method')); //for patch,put,delete functions
 
 //formed connection to db
 main().then(() => console.log("Database Connected Successfully")).catch(err => console.log(err));
@@ -46,7 +47,14 @@ app.post('/newTask', async (req, res) => {
     const parsedCreatedAt = new Date();
     const errors = {};
 
-    console.log(parsedCreatedAt + "ANDD " + parsedDueDate);
+    //for mongoose to apply the default for title even if the title is an empty string
+    if(!title || title.trim() === '') {
+        req.body.title = undefined;
+    }
+
+    if(title?.length > 100) {
+        errors.title = "Length exceeded - character limit is only 100 characters for title."
+    }
 
     if(!description || description.trim() === '') {
         errors.description = "Description is required."
@@ -74,9 +82,18 @@ app.post('/newTask', async (req, res) => {
 });
 
 //route to get the form to edit the post
-app.patch
+app.get('/editTask/:id', async (req, res) => {
+    res.render('editForm', {
+        errors : {},
+        prevInput: {},
+        userTask: await Task.findById(req.params.id)
+    });
+});
 
+//route to update the changes
+// app.patch('/editTask', async (req, res) => {
 
+// })
 
 //server is listening at this port
 app.listen(PORT, () => {

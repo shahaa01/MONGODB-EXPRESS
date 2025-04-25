@@ -23,7 +23,9 @@
                         </div>
                         <div class="buttons">
                             <button type="submit">Delete</button>
-                            <button type="submit">Edit</button>
+                            <a href="http://localhost:8080/editTask/<%= task._id.toString() %>">
+                                <button type="submit">Edit</button>
+                            </a>
                             <select name="status" id="status">
                                 <option value="done">Done</option>
                             </select>
