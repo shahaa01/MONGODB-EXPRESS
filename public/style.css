@@ -26,7 +26,6 @@ h1 {
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    border: 2px solid red;
 }
 
 .task-container {
@@ -38,7 +37,6 @@ h1 {
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
-    border: 2px solid red;
 
 }
 
@@ -53,7 +51,6 @@ h1 {
     color: white;
     mix-blend-mode: difference;
     padding: 10px;
-    border: 2px solid red;
 
 }
 
@@ -66,14 +63,12 @@ h1 {
     gap: 5px;
     background: linear-gradient(rgb(21, 21, 66), rgb(35, 35, 123));
     border-radius: 20px;
-    border: 2px solid red;
 
 }
 
 .title {
     width: 100%;
     padding: 0;
-    border: 2px solid red;
     overflow: hidden;
 
 }
@@ -91,8 +86,7 @@ h1 {
 }
 
 
-.buttons {
+.buttons button {
     border-radius: 5px;
-    background-color: aliceblue;
-
+    background-color: rgb(80, 154, 219);
 }

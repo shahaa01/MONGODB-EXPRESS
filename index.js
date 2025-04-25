@@ -4,6 +4,7 @@ const path = require('path');
 const PORT = 8080;
 const mongoose = require('mongoose');
 const Task = require('./models/task');
+const methodOverride = require('method-override');
 
 //set view engine
 app.set("view engine", "ejs");
@@ -71,6 +72,9 @@ app.post('/newTask', async (req, res) => {
         res.status(500).send(`The error is : ${err.message}`);
     }
 });
+
+//route to get the form to edit the post
+app.patch
 
 
 
