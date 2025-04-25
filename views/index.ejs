@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YourTasks</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <main>
+        <div class="container">
+            <h1>All Tasks</h1>
+            <div class="task-container">
+                <% tasks.forEach((task) => { %>
+                    <div class="task">
+                        <div class="task-content">
+                            <div class="title">
+                                <h3> <%= task.title %> </h3>
+                            </div>
+                            <p> <%= task.description %> </p>
+                            <p> <%= task.createdAt %> </p>
+                            <p> <%= task.dueDate %> </p>
+                        </div>
+                        <div class="buttons">
+                            <button type="submit">Delete</button>
+                            <button type="submit">Edit</button>
+                            <select name="status" id="status">
+                                <option value="done">Done</option>
+                            </select>
+                        </div>
+                    </div>
+                    <% }); %>
+            </div>
+            <button>Add New Task</button>
+        </div>
+        
+    </main>
+</body>
+</html>
