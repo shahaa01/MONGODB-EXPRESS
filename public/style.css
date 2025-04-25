@@ -1,9 +1,11 @@
 body {
     height: 100vh;
     width: 100%;
+    padding: 0;
 }
 
 main {
+    height: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -15,7 +17,7 @@ h1 {
 }
 
 .container {
-    height: 70vh;
+    height: auto;
     width: 100%;
     padding: 0.5rem;
     display: flex;
@@ -24,9 +26,11 @@ h1 {
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+    border: 2px solid red;
 }
 
 .task-container {
+    width: 90%;
     padding: 0.5rem;
     display: flex;
     flex-direction: row;
@@ -34,9 +38,12 @@ h1 {
     align-items: center;
     gap: 10px;
     flex-wrap: wrap;
+    border: 2px solid red;
+
 }
 
 .task {
+    width: 25%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,11 +53,8 @@ h1 {
     color: white;
     mix-blend-mode: difference;
     padding: 10px;
-}
+    border: 2px solid red;
 
-.title h3{
-    background-color: black;
-    width: 100%;
 }
 
 .task-content {
@@ -62,11 +66,30 @@ h1 {
     gap: 5px;
     background: linear-gradient(rgb(21, 21, 66), rgb(35, 35, 123));
     border-radius: 20px;
+    border: 2px solid red;
+
 }
 
-h3 {
-    text-align: center;
+.title {
+    width: 100%;
+    padding: 0;
+    border: 2px solid red;
+    overflow: hidden;
+
 }
+
+.title h3 {
+    width: 100%;
+    background-color: black;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    margin: 0; /* Reset default margin */
+    padding: 10px;
+}
+
 
 .buttons {
     border-radius: 5px;

@@ -20,8 +20,6 @@ main().then(() => console.log("Database Connected Successfully")).catch(err => c
 //connection to database
 async function main() {
     await mongoose.connect('mongodb://127.0.0.1:27017/tasks');
-
-
 }
 
 //routes for the app
@@ -30,7 +28,49 @@ app.get('/', async (req, res) => {
     let tasks = await Task.find();
     console.log(tasks);
     res.render('index', {tasks});
+});
+
+//route to show form to add new task
+app.get('/newTask', (req, res) => {
+    res.render('taskForm' , {
+        errors: {},
+        prevInput: {}
+    });
 })
+
+//route to add a new task
+app.post('/newTask', async (req, res) => {
+    const {title, description, createdAt, dueDate} = req.body;
+    const parsedDueDate = new Date(dueDate);
+    const parsedCreatedAt = new Date(createdAt);
+    const errors = {};
+
+    if(!description || description.trim() === '') {
+        errors.description = "Description is required."
+    }
+
+    if(!dueDate || !createdAt || !(Number.isNaN(parsedDueDate) || Number.isNaN(parsedCreatedAt)) || parsedDueDate <= parsedCreatedAt) {
+        errors.dueDate = "Due date has to be a valid future date."
+    }
+
+    if(Object.keys(errors).length > 0) {
+        return res.render('taskForm', {
+            errors, 
+            prevInput: req.body
+        });
+    }
+
+    //no error in form validation - lets go
+    try {
+        const task = new Task(req.body);
+        await task.save();
+        res.redirect('/');
+    } catch(err) {
+        res.status(500).send(`The error is : ${err.message}`);
+    }
+});
+
+
 
 //server is listening at this port
 app.listen(PORT, () => {

@@ -3,9 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>New Task</title>
+    <link rel="stylesheet" href="/formStyle.css">
 </head>
 <body>
-    
+    <main>
+        <h1>Add a new Task</h1>
+        <div class="form-container">
+            <form action="/newTask" method="post">
+                <label>
+                    Title
+                    <input type="text" name="title">
+                </label>
+                <label>
+                    Description
+                    <input type="text" name="description" required value="<% errors?.description || '' %>">
+                    <% if(errors?.description) { %>
+                    <p style="color: rgb(249, 7, 7);"><%= errors.description %></p>
+                    <% } %>
+                </label>
+                <label>
+                    Due:
+                    <input type="date" name="dueDate" required value="<% errors?.dueDate || '' %>">
+                    <% if(errors?.dueDate) { %>
+                        <p style="color: rgb(249, 7, 7);"><%= errors.dueDate %></p>
+                        <% } %>
+                </label>
+                <button type="submit">Add</button>
+            </form>
+        </div>
+    </main>
 </body>
 </html>

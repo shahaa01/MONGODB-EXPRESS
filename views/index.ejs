@@ -18,8 +18,8 @@
                                 <h3> <%= task.title %> </h3>
                             </div>
                             <p> <%= task.description %> </p>
-                            <p> <%= task.createdAt %> </p>
-                            <p> <%= task.dueDate %> </p>
+                            <p> <%= task.createdAt.toLocaleString() %> </p>
+                            <p> <%= task.dueDate.toLocaleString() %> </p>
                         </div>
                         <div class="buttons">
                             <button type="submit">Delete</button>
@@ -31,9 +31,10 @@
                     </div>
                     <% }); %>
             </div>
-            <button>Add New Task</button>
+            <a href="http://localhost:8080/newTask">
+                <button>Add New Task</button>
+            </a>
         </div>
-        
     </main>
 </body>
 </html>
