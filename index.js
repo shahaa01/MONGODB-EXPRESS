@@ -40,16 +40,18 @@ app.get('/newTask', (req, res) => {
 
 //route to add a new task
 app.post('/newTask', async (req, res) => {
-    const {title, description, createdAt, dueDate} = req.body;
+    const {title, description, dueDate} = req.body;
     const parsedDueDate = new Date(dueDate);
-    const parsedCreatedAt = new Date(createdAt);
+    const parsedCreatedAt = new Date();
     const errors = {};
+
+    console.log(parsedCreatedAt + "ANDD " + parsedDueDate);
 
     if(!description || description.trim() === '') {
         errors.description = "Description is required."
     }
 
-    if(!dueDate || !createdAt || !(Number.isNaN(parsedDueDate) || Number.isNaN(parsedCreatedAt)) || parsedDueDate <= parsedCreatedAt) {
+    if(!dueDate || (Number.isNaN(parsedDueDate) || Number.isNaN(parsedCreatedAt)) || parsedDueDate <= parsedCreatedAt) {
         errors.dueDate = "Due date has to be a valid future date."
     }
 
