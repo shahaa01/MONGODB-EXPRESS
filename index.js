@@ -91,9 +91,48 @@ app.get('/editTask/:id', async (req, res) => {
 });
 
 //route to update the changes
-// app.patch('/editTask', async (req, res) => {
+app.patch('/editTask/:id', async (req, res) => {
+    const {title: newTitle, description: newDescription, dueDate: newDueDate} = req.body;
+    const parsedDueDate = new Date(newDueDate);
+    const parsedCreatedAt = new Date();
+    const errors = {};
 
-// })
+    //for mongoose to apply the default for title even if the title is an empty string
+    if(!newTitle || newTitle.trim() === '') {
+        req.body.title = undefined;
+    }
+
+    if(newTitle?.length > 100) {
+        errors.title = "Length exceeded - character limit is only 100 characters for title."
+    }
+
+    if(!newDescription || newDescription.trim() === '') {
+        errors.description = "Description is required."
+    }
+
+    if(!newDueDate || (Number.isNaN(parsedDueDate) || Number.isNaN(parsedCreatedAt)) || parsedDueDate <= parsedCreatedAt) {
+        errors.dueDate = "Due date has to be a valid future date."
+    }
+
+    if(Object.keys(errors).length > 0) {
+        return res.render('taskForm', {
+            errors, 
+            prevInput: req.body
+        });
+    }
+
+    //no error in form validation - lets go
+    try {
+        await Task.findByIdAndUpdate('req.params.id', {
+            title: newTitle,
+            description: newDescription,
+            dueDate: newDueDate
+        });
+        res.redirect('/')
+    } catch(err) {
+        res.status(500).send(`The error is : ${err.message}`);
+    }
+})
 
 //server is listening at this port
 app.listen(PORT, () => {

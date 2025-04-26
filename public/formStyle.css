@@ -16,20 +16,25 @@ main {
 
 .form-container {
     width: 10%;
+    min-width: 250px;
     padding: 2rem;
     display: flex;
     background: linear-gradient(rgb(21, 21, 66), rgb(35, 35, 123));
     font-size: larger;
+    border-radius: 15px;
+    box-shadow: 5px 10px 5px rgba(0, 0, 0, 0.622);
 }
 
-.form-container input { 
-    margin: 10px 0 10px 0;
+.form-container textarea, input { 
+    margin: 5px 0 5px 0;
 }
 
-textarea {
+textarea, input {
     width: 100%;
     resize: vertical;
     max-width: 100%;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
 label {

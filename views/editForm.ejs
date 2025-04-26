@@ -13,17 +13,17 @@
         <form action="/editTask?_method=PATCH" method="post">
             <label>
                 Title
-                <input type="text" name="title" value=" <%= userTask?.title || prevInput?.title || '' %> ">
+                <textarea type="text" class="title" name="title"  oninput="autoSize(this)"><%=prevInput?.title || userTask?.title || ''%></textarea>
             </label>
             <p style="color: red;"> <%= errors?.title %> </p>
             <label>
                 Description
-                <textarea name="description"><%= userTask?.description || prevInput?.description || '' %></textarea>
+                <textarea name="description" oninput="autoSize(this)"><%=prevInput?.description  || userTask?.description || ''%></textarea>
             </label>
             <p style="color: red;"><%= errors?.description %></p>
             <label>
                 Due 
-                <input type="date" value=" <%= userTask?.dueDate || prevInput?.dueDate || '' %> ">
+                <input name="dueDate" type="date" value="<%= (prevInput?.dueDate ? new Date(prevInput?.dueDate).toISOString().slice(0,10) : (userTask?.dueDate ? new Date(userTask?.dueDate).toISOString().slice(0,10) : '')) %>">
             </label>
             <p style="color: red;"><%= errors?.dueDate %></p>
             <button type="submit">Update</button>
@@ -31,4 +31,10 @@
     </div>
     </main>
 </body>
+<script>
+    function autoSize(element) {
+        element.style.height = "auto";
+        element.style.height = element.scrollHeight + "px";
+    }
+</script>
 </html>

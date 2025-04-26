@@ -13,12 +13,12 @@
             <form action="/newTask" method="post">
                 <label>
                     Title
-                    <input type="text" name="title" value="<%= prevInput?.title || '' %>">
+                    <textarea type="text" class="title" name="title"  oninput="autoSize(this)"><%= prevInput?.title || '' %></textarea>
                     <p style="color: rgb(249, 7, 7) ;"><%= errors?.title %></p>
                 </label>
                 <label>
                     Description
-                    <textarea name="description"><%= prevInput?.description || '' %></textarea>
+                    <textarea name="description" oninput="autoSize(this)"><%= prevInput?.description || '' %></textarea>
                     <% if(errors?.description) { %>
                     <p style="color: rgb(249, 7, 7);"><%= errors.description %></p>
                     <% } %>
@@ -35,4 +35,10 @@
         </div>
     </main>
 </body>
+<script>
+    function autoSize(element) {
+        element.style.height = "auto";
+        element.style.height = element.scrollHeight + "px";
+    }
+</script>
 </html>
