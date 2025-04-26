@@ -8,7 +8,7 @@ Welcome to my hands-on learning repo focused on integrating **MongoDB** with **E
 
 ### ⚙️ Setup
 - **Basic Set Up** – Setting up the project structure with Express and Mongoose.
-- **Creating our Model (Chat)** – Defining the schema and model for a chat app.
+- **Creating our Model (Task)** – Defining the schema and model for a TaskTracker app.
 - **Initialize Database** – Connecting to MongoDB and preparing it for use.
 
 ### 🌍 CRUD Routes
