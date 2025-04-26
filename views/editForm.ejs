@@ -8,9 +8,12 @@
 </head>
 <body>
     <main>
-    <h1>Edit Your Task</h1>
+    <h1><%=isEdit ? 'Edit Your Task' : 'Add a new Task'%></h1>
     <div class="form-container">
-        <form action="/editTask?_method=PATCH" method="post">
+        <form action="<%=isEdit ? '/editTask/' + userId : '/newTask' %>" method="post">
+            <% if(isEdit) { %>
+                <input type="hidden" name="_method" value="PATCH">
+                <% } %>
             <label>
                 Title
                 <textarea type="text" class="title" name="title"  oninput="autoSize(this)"><%=prevInput?.title || userTask?.title || ''%></textarea>
@@ -26,7 +29,7 @@
                 <input name="dueDate" type="date" value="<%= (prevInput?.dueDate ? new Date(prevInput?.dueDate).toISOString().slice(0,10) : (userTask?.dueDate ? new Date(userTask?.dueDate).toISOString().slice(0,10) : '')) %>">
             </label>
             <p style="color: red;"><%= errors?.dueDate %></p>
-            <button type="submit">Update</button>
+            <button type="submit"><%= isEdit ? 'Update' : 'Add' %></button>
         </form>
     </div>
     </main>

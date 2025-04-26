@@ -14,8 +14,18 @@ app.use(express.static(path.join(__dirname, "public"))); //app.use expects a mid
 //set required middlewares
 app.use(express.urlencoded({extended: true})); //parses form "PUT" method data
 app.use(express.json()); //parses JSON data
-app.use(methodOverride('_method')); //for patch,put,delete functions
-
+// Use both query string and hidden field
+app.use(methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // Look inside body
+      return req.body._method;
+    }
+    if (req.query && '_method' in req.query) {
+      // Look inside query string
+      return req.query._method;
+    }
+  }));
+  
 //formed connection to db
 main().then(() => console.log("Database Connected Successfully")).catch(err => console.log(err));
 
@@ -34,9 +44,11 @@ app.get('/', async (req, res) => {
 
 //route to show form to add new task
 app.get('/newTask', (req, res) => {
-    res.render('taskForm' , {
+    res.render('editForm' , {
+        isEdit: false,
         errors: {},
-        prevInput: {}
+        prevInput: {},
+        userTask: {}
     });
 })
 
@@ -65,7 +77,7 @@ app.post('/newTask', async (req, res) => {
     }
 
     if(Object.keys(errors).length > 0) {
-        return res.render('taskForm', {
+        return res.render('editForm', {
             errors, 
             prevInput: req.body
         });
@@ -84,6 +96,8 @@ app.post('/newTask', async (req, res) => {
 //route to get the form to edit the post
 app.get('/editTask/:id', async (req, res) => {
     res.render('editForm', {
+        userId : req.params.id,
+        isEdit: true,
         errors : {},
         prevInput: {},
         userTask: await Task.findById(req.params.id)
@@ -92,14 +106,14 @@ app.get('/editTask/:id', async (req, res) => {
 
 //route to update the changes
 app.patch('/editTask/:id', async (req, res) => {
-    const {title: newTitle, description: newDescription, dueDate: newDueDate} = req.body;
+    let {title: newTitle, description: newDescription, dueDate: newDueDate} = req.body;
     const parsedDueDate = new Date(newDueDate);
     const parsedCreatedAt = new Date();
     const errors = {};
 
     //for mongoose to apply the default for title even if the title is an empty string
     if(!newTitle || newTitle.trim() === '') {
-        req.body.title = undefined;
+        newTitle = undefined;
     }
 
     if(newTitle?.length > 100) {
@@ -110,27 +124,29 @@ app.patch('/editTask/:id', async (req, res) => {
         errors.description = "Description is required."
     }
 
-    if(!newDueDate || (Number.isNaN(parsedDueDate) || Number.isNaN(parsedCreatedAt)) || parsedDueDate <= parsedCreatedAt) {
+    if(!newDueDate || Number.isNaN(parsedDueDate) || parsedDueDate <= parsedCreatedAt) {
         errors.dueDate = "Due date has to be a valid future date."
     }
 
     if(Object.keys(errors).length > 0) {
-        return res.render('taskForm', {
+        return res.render('editForm', {
             errors, 
-            prevInput: req.body
+            prevInput: req.body,
+            userId: req.params.id,
+            userTask: await Task.findById(req.params.id)
         });
     }
 
     //no error in form validation - lets go
     try {
-        await Task.findByIdAndUpdate('req.params.id', {
+        await Task.findByIdAndUpdate(req.params.id, {
             title: newTitle,
             description: newDescription,
             dueDate: newDueDate
         });
         res.redirect('/')
     } catch(err) {
-        res.status(500).send(`The error is : ${err.message}`);
+        res.status(500).send(`The error in patch is : ${err.message}`);
     }
 })
 
