@@ -19,10 +19,12 @@
                             </div>
                             <p> <%= task.description %> </p>
                             <p> <%= task.createdAt.toLocaleString() %> </p>
-                            <p> <%= task.dueDate.toLocaleString() %> </p>
+                            <p> <%= task.dueDate.toISOString().slice(0,10).split("-").join("/")%> </p>
                         </div>
                         <div class="buttons">
-                            <button type="submit">Delete</button>
+                            <form action="http://localhost:8080/delete/<%=task._id.toString()%>?_method=DELETE" method="post">
+                                <button type="submit">Delete</button>
+                            </form>
                             <a href="http://localhost:8080/editTask/<%= task._id.toString() %>">
                                 <button type="submit">Edit</button>
                             </a>

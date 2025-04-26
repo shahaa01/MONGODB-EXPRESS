@@ -25,7 +25,7 @@ app.use(methodOverride(function (req, res) {
       return req.query._method;
     }
   }));
-  
+
 //formed connection to db
 main().then(() => console.log("Database Connected Successfully")).catch(err => console.log(err));
 
@@ -148,7 +148,19 @@ app.patch('/editTask/:id', async (req, res) => {
     } catch(err) {
         res.status(500).send(`The error in patch is : ${err.message}`);
     }
-})
+});
+
+//delete route
+app.delete('/delete/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        await Task.findByIdAndDelete(id);
+        res.redirect('/');
+    } catch(err) {
+        console.log(`The error in delete route is: ${err.message}`);
+        res.status(500).send(`Error while deleting the task: ${err.message}`);
+    }
+});
 
 //server is listening at this port
 app.listen(PORT, () => {
